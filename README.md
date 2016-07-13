@@ -9,13 +9,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist RangelReale/derest "*"
+php composer.phar require --prefer-dist rangelreale/derest "*"
 ```
 
 or add
 
 ```json
-"RangelReale/derest": "*"
+"rangelreale/derest": "*"
 ```
 
 to the `require` section of your composer.json.
