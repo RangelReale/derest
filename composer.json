@@ -1,0 +1,21 @@
+{
+    "name": "RangelReale/derest",
+    "description": "Derest is a PHP5 REST client",
+    "keywords": ["rest"],
+    "license": "BSD-3-Clause",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Rangel Reale",
+            "email": "rangelspam@gmail.com"
+        }
+    ],
+    "type": "library",
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "RangelReale\\derest\\": ""
+        }
+    }    
+}
