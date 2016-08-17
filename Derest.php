@@ -112,7 +112,15 @@ class Derest
 }
 
 class Exception extends \Exception
-{}
+{
+    public $data;
+    
+	public function __construct ($message = "", $code = 0, Exception $previous = null, $data = null) 
+    {
+        parent::__construct($message, $code, $previous);
+        $this->data = $data;
+    }
+}
 class ClientError_Exception extends Exception
 {}
 class ServerError_Exception extends ClientError_Exception

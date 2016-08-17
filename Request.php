@@ -166,12 +166,13 @@ class Request
         }
 
         if ($this->throw_exceptions && isset($resp->meta)) {
+            $error_info = $this->processError($resp);
             if ($resp->meta['http_code'] >= 400 && $resp->meta['http_code'] <= 499) {
-                throw new ClientError_Exception($this->processError($resp));
+                throw new ClientError_Exception($error_info->message, $error_info->code, null, $error_info->data);
             } elseif ($resp->meta['http_code'] >= 500 && $resp->meta['http_code'] <= 599) {
-                throw new ServerError_Exception($this->processError($resp));
+                throw new ServerError_Exception($error_info->message, $error_info->code, null, $error_info->data);
             } elseif (!isset($resp->meta['http_code']) || $resp->meta['http_code'] >= 600) {
-                throw new UnknownResponse_Exception($this->processError($resp));
+                throw new UnknownResponse_Exception($error_info->message, $error_info->code, null, $error_info->data);
             }
         }
 
@@ -241,12 +242,12 @@ class Request
     public function processError($response)
     {
         if (isset($this->derest->errorProcessor)) {
-            return $this->derest->errorProcessor->retrieveErrorMessage($response);
+            return $this->derest->errorProcessor->retrieveErrorInfo($response);
         }
         if (isset($response->body)) {
-            return $response->body;
+            return new ErrorInfo($response->body);
         }
-        return 'Unknown error';
+        return new ErrorInfo('Unknown error');
     }
 
     public function parseUrl($url, $include_base_url = true)
