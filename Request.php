@@ -166,13 +166,15 @@ class Request
         }
 
         if ($this->throw_exceptions && isset($resp->meta)) {
-            $error_info = $this->processError($resp);
-            if ($resp->meta['http_code'] >= 400 && $resp->meta['http_code'] <= 499) {
-                throw new ClientError_Exception($error_info->message, $error_info->code, null, $error_info->data);
-            } elseif ($resp->meta['http_code'] >= 500 && $resp->meta['http_code'] <= 599) {
-                throw new ServerError_Exception($error_info->message, $error_info->code, null, $error_info->data);
-            } elseif (!isset($resp->meta['http_code']) || $resp->meta['http_code'] >= 600) {
-                throw new UnknownResponse_Exception($error_info->message, $error_info->code, null, $error_info->data);
+            if ($resp->meta['http_code'] >= 400 && $resp->meta['http_code'] <= 600) {
+                $error_info = $this->processError($resp);
+                if ($resp->meta['http_code'] >= 400 && $resp->meta['http_code'] <= 499) {
+                    throw new ClientError_Exception($error_info->message, $error_info->code, null, $error_info->data);
+                } elseif ($resp->meta['http_code'] >= 500 && $resp->meta['http_code'] <= 599) {
+                    throw new ServerError_Exception($error_info->message, $error_info->code, null, $error_info->data);
+                } elseif (!isset($resp->meta['http_code']) || $resp->meta['http_code'] >= 600) {
+                    throw new UnknownResponse_Exception($error_info->message, $error_info->code, null, $error_info->data);
+                }
             }
         }
 
