@@ -61,7 +61,12 @@ class Response
                 $this->receiver->receiveData($this, $data);
             }
         } elseif (!$processed) {
-            throw new ServerError_Exception('No processor for receiving the data was set');
+            if (isset($this->content_type) && substr($this->content_type, 0, 5) == 'text/') {
+                if (!isset($this->body)) $this->body = '';
+                $this->body .= $data;
+            } else {
+                throw new ServerError_Exception('No processor for receiving the data was set');
+            }
         }
 
         return strlen($data);
