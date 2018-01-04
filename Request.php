@@ -103,6 +103,11 @@ class Request
         // headers
         if (!is_array($headers))
             $headers = [];
+        if (isset($this->instanceData['headers'])) {
+            foreach ($this->instanceData['headers'] as $hn => $hv) {
+                $headers[$hn] = $hv;
+            }
+        }
 
         if (isset($data)) {
             if (is_object($data) && $data instanceof Data) {

@@ -18,7 +18,6 @@ class Derest
         CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
         CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
         CURLOPT_MAXREDIRS => 10, // but dont redirect more than 10 times
-        CURLOPT_HTTPHEADER => array(),
     ];
 
     public $instances = [
@@ -27,6 +26,7 @@ class Derest
             'data_format' => 'json',
             'response_format' => 'json',
             'curl_opts' => [],
+            'headers' => [],
         ],
     ];
 
@@ -59,6 +59,7 @@ class Derest
             'data_format' => 'json',
             'response_format' => 'json',
             'curl_opts' => [],
+            'headers' => [],
         ];
 
         $this->instances[$instance] = array_merge($defaultOptions, [ 'base_url' => $base_url ], $options);
