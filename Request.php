@@ -148,13 +148,15 @@ class Request
             curl_setopt($curl, $cname, $cval);
         }
 
+        $request_data = [
+            'headers' => $headers,
+            'data' => $data,
+            'url' => $curl_opts[CURLOPT_URL],
+            'method' => $method,
+            'curl_opts' => $curl_opts,
+        ];
         if (isset($this->logger)) {
-            $this->logger->logRequest($this, [
-                'headers' => $headers,
-                'url' => $curl_opts[CURLOPT_URL],
-                'method' => $method,
-                'curl_opts' => $curl_opts,
-            ]);
+            $this->logger->logRequest($this, $request_data);
         }
 
         $curl_result = curl_exec($curl);
@@ -167,7 +169,7 @@ class Request
         curl_close($curl);
 
         if (isset($this->logger)) {
-            $this->logger->logResponse($this, $resp);
+            $this->logger->logResponse($this, $request_data, $resp);
         }
 
         if ($this->throw_exceptions && isset($resp->meta)) {
